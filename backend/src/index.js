@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+app.use(express.json());
+
 const connection = require('./database/config');
 
 connection.authenticate()
@@ -11,6 +13,10 @@ connection.authenticate()
 
 const User = require('./database/models/User');
 const Note = require('./database/models/Note');
+
+const userRouter = require('./routes/user');
+
+app.use('/user', userRouter);
 
 const port = process.env.PORT;
 app.listen(port, () => {
