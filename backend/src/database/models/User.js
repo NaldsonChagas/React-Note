@@ -7,7 +7,7 @@ const User = connection.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true,
-      len: [2, 50],
+      len: [2, 70],
     }
   },
   surname: {
@@ -15,7 +15,7 @@ const User = connection.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true,
-      len: [2, 50],
+      len: [2, 100],
     }
   },
   username: {

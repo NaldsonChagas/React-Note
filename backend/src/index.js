@@ -10,7 +10,7 @@ connection.authenticate()
   .catch(err => console.log(err));
 
 const User = require('./database/models/User');
-
+const Note = require('./database/models/Note');
 
 const port = process.env.PORT;
 app.listen(port, () => {
