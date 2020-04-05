@@ -15,7 +15,9 @@ const User = require('./database/models/User');
 const Note = require('./database/models/Note');
 
 const userRouter = require('./routes/user');
+const loginRouter = require('./routes/login');
 
+app.use('/', loginRouter);
 app.use('/user', userRouter);
 
 const port = process.env.PORT;
