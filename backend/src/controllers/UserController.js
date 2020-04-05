@@ -12,14 +12,14 @@ module.exports = {
       password } = req.body;
 
     try {
-      console.log(await User.create({
+      await User.create({
         name,
         surname,
         username,
         email,
         password: passwordUtil
           .setPassword(password)
-      }));
+      });
       res.json({ message: `User saved successfully` });
     } catch (err) {
       res.status(500).json({ message: `The user could not be saved` })
