@@ -26,6 +26,7 @@ module.exports = {
 
         res.json({
           message: 'Authentication done',
+          userId: userFinded.id,
           token
         })
       }
