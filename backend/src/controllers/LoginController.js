@@ -1,19 +1,26 @@
 const jwt = require('jsonwebtoken')
+const { Op } = require('sequelize')
 
 const User = require('../database/models/User')
 const passwordUtil = require('../utils/passwordUtil')
 
 module.exports = {
   async login (req, res) {
-    const { username, password } = req.body
+    const { user, password } = req.body
 
-    const user = await User
-      .findOne({ where: { username } })
+    const userFinded = await User
+      .findOne({
+        where:
+          {
+            [Op.or]: [
+              { username: user },
+              { email: user }]
+          }
+      })
 
-    if (user) {
-      if (passwordUtil
-        .comparePassword(password, user.password)) {
-        const token = jwt.sign({ user }, process.env.LOGIN_KEY, {
+    if (userFinded) {
+      if (passwordUtil.comparePassword(password, userFinded.password)) {
+        const token = jwt.sign({ userFinded }, process.env.LOGIN_KEY, {
           expiresIn: '12h'
         })
 
