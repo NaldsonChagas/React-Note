@@ -22,10 +22,12 @@ app.use(checkLoggedUser)
 const userRouter = require('./routes/user')
 const loginRouter = require('./routes/login')
 const profileRouter = require('./routes/profile')
+const validatorRouter = require('./routes/validator')
 
 app.use('/', loginRouter)
 app.use('/user', userRouter)
 app.use('/profile', profileRouter)
+app.use('/validator', validatorRouter)
 
 const port = process.env.PORT
 app.listen(port, () => {
