@@ -1,7 +1,7 @@
-const connection = require('../config');
-const Sequelize = require('sequelize');
+const connection = require('../config')
+const Sequelize = require('sequelize')
 
-const User = require('./User');
+const User = require('./User')
 
 const Note = connection.define('note', {
   title: {
@@ -26,8 +26,8 @@ const Note = connection.define('note', {
       key: 'id'
     }
   }
-});
+})
 
-Note.sync({ force: false });
+Note.sync({ force: false })
 
-module.exports = Note;
+module.exports = Note

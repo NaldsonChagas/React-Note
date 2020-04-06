@@ -1,9 +1,9 @@
-const { withJWTAuthMiddleware } = require('express-kun');
+const { withJWTAuthMiddleware } = require('express-kun')
 
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
 const protectedRouter = withJWTAuthMiddleware(router,
-  process.env.Router);
+  process.env.Router)
 
-module.exports = protectedRouter;
+module.exports = protectedRouter

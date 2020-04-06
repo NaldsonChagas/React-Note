@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize');
-const connection = require('../config');
+const Sequelize = require('sequelize')
+const connection = require('../config')
 
 const User = connection.define('user', {
   name: {
@@ -7,7 +7,7 @@ const User = connection.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true,
-      len: [2, 70],
+      len: [2, 70]
     }
   },
   surname: {
@@ -15,7 +15,7 @@ const User = connection.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true,
-      len: [2, 100],
+      len: [2, 100]
     }
   },
   username: {
@@ -25,14 +25,14 @@ const User = connection.define('user', {
       notEmpty: true,
       len: [2, 20],
       not: /[ `´!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
-    },
+    }
   },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
       notEmpty: true,
-      isEmail: true,
+      isEmail: true
     }
   },
   password: {
@@ -40,11 +40,11 @@ const User = connection.define('user', {
     allowNull: false,
     validate: {
       notEmpty: true,
-      len: [6, 100],
+      len: [6, 100]
     }
   }
-}, {});
+}, {})
 
-User.sync({ force: false });
+User.sync({ force: false })
 
-module.exports = User;
+module.exports = User
