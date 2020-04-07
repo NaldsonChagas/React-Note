@@ -12,6 +12,12 @@ module.exports = function checkLoggedUser (req, res, next) {
       next()
     }
   } else {
-    next()
+    if (authorization && !userid) {
+      res.status(400)
+        .json({ message: 'There was a problem with your request' })
+      throw new Error('user id was not sent')
+    } else {
+      next()
+    }
   }
 }
