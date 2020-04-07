@@ -19,7 +19,7 @@ const Note = connection.define('note', {
       notEmpty: true
     }
   },
-  user_id: {
+  userId: {
     type: Sequelize.INTEGER,
     references: {
       model: User,
