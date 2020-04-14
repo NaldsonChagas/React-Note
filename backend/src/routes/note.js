@@ -8,5 +8,6 @@ const noteController = require('../controllers/NoteController')
 protectedRouter.get('/', noteController.index)
 protectedRouter.post('/', noteController.save)
 protectedRouter.put('/', noteController.update)
+protectedRouter.delete('/:noteid', noteController.delete)
 
 module.exports = router

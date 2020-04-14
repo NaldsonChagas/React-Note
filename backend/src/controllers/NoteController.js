@@ -47,5 +47,28 @@ module.exports = {
     } else {
       res.status(403).json({ message: 'You cannot edit this note' })
     }
+  },
+  async delete (req, res) {
+    const { userid } = req.headers
+    const { noteid } = req.params
+
+    const noteFinded = await Note
+      .findOne({ where: { id: noteid } })
+
+    if (noteFinded) {
+      if (noteFinded.userId === parseInt(userid)) {
+        try {
+          await Note.destroy({ where: { id: noteid } })
+          res.json({ message: 'Note successfully deleted' })
+        } catch (error) {
+          res.status(500).json({ message: 'The note cannot be deleted' })
+          throw new Error(error)
+        }
+      } else {
+        res.status(403).json({ message: 'You cannot edit this note' })
+      }
+    } else {
+      res.status(400).json({ message: 'Invalid note data' })
+    }
   }
 }
