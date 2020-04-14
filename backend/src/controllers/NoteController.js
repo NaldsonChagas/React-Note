@@ -21,54 +21,35 @@ module.exports = {
         userId: userid
       })
       res.json({ message: 'Note created successfully' })
-    } catch (e) {
+    } catch (error) {
       res.status(500).json({ message: 'The note could not be saved' })
-      throw new Error(e)
+      throw new Error(error)
     }
   },
   async update (req, res) {
     const { title, body } = req.body
-    const { noteid, userid } = req.headers
+    const { id } = req.params
 
-    const noteFinded = await Note
-      .findOne({ where: { id: noteid } })
-
-    if (noteFinded.userId === parseInt(userid)) {
-      try {
-        await Note.update({
-          title,
-          body
-        }, { where: { id: noteid } })
-        res.json({ message: 'Note updated successfully' })
-      } catch (error) {
-        res.status(500).json({ message: 'The note could not be updated' })
-        throw new Error(error)
-      }
-    } else {
-      res.status(403).json({ message: 'You cannot edit this note' })
+    try {
+      await Note.update({
+        title,
+        body
+      }, { where: { id } })
+      res.json({ message: 'Note updated successfully' })
+    } catch (error) {
+      res.status(500).json({ message: 'The note could not be updated' })
+      throw new Error(error)
     }
   },
   async delete (req, res) {
-    const { userid } = req.headers
-    const { noteid } = req.params
+    const { id } = req.params
 
-    const noteFinded = await Note
-      .findOne({ where: { id: noteid } })
-
-    if (noteFinded) {
-      if (noteFinded.userId === parseInt(userid)) {
-        try {
-          await Note.destroy({ where: { id: noteid } })
-          res.json({ message: 'Note successfully deleted' })
-        } catch (error) {
-          res.status(500).json({ message: 'The note cannot be deleted' })
-          throw new Error(error)
-        }
-      } else {
-        res.status(403).json({ message: 'You cannot edit this note' })
-      }
-    } else {
-      res.status(400).json({ message: 'Invalid note data' })
+    try {
+      await Note.destroy({ where: { id } })
+      res.json({ message: 'Note successfully deleted' })
+    } catch (error) {
+      res.status(500).json({ message: 'The note cannot be deleted' })
+      throw new Error(error)
     }
   }
 }

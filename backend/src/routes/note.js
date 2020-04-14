@@ -3,11 +3,16 @@ const router = express.Router()
 
 const protectedRouter = require('../utils/protectedRouter')(router)
 
+const checksNoteAuthorship = require('../midlewares/ChecksNoteAuthorship')
+
 const noteController = require('../controllers/NoteController')
 
 protectedRouter.get('/', noteController.index)
 protectedRouter.post('/', noteController.save)
-protectedRouter.put('/', noteController.update)
-protectedRouter.delete('/:noteid', noteController.delete)
+
+router.use('/:id', checksNoteAuthorship)
+
+protectedRouter.put('/:id', noteController.update)
+protectedRouter.delete('/:id', noteController.delete)
 
 module.exports = router
