@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+label {
+  font-weight: bold;
+}
+
+.btn-success {
+  background: #00C472;
+}
+
+.btn-success:hover {
+  background: #009154;
+}
+
+span[role="img"] {
+  margin-right: 0.3px;
+  margin-left: 0.3em;
+}

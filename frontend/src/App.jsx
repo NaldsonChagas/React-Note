@@ -1,5 +1,15 @@
 import React from 'react';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import Login from './Pages/Login';
 
-export default function App() {
-  return <h1>React notes</h1>;
+function App() {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route component={Login} path="/" />
+      </Switch>
+    </BrowserRouter>
+  );
 }
+
+export default App;
