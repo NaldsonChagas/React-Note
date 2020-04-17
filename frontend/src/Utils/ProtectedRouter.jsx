@@ -14,7 +14,15 @@ export default function ProtectedRouter(props) {
   if (isAuthenticated()) {
     return <Route path={path} component={component} />;
   }
-  return <Redirect to="/" />;
+  return (
+    <Redirect to={{
+      pathname: '/',
+      state: {
+        message: 'Faça login primeiro',
+      },
+    }}
+    />
+  );
 }
 
 ProtectedRouter.defaultProps = {

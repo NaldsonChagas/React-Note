@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './style.css';
 import LoginForm from '../../Components/LoginForm';
 import FirstStepRegister from '../../Components/FirstStepRegister';
 import InitialHeader from '../../Components/InitialHeader';
-import Footer from '../../Components/Footer';
+import Alert from '../../Components/Alert';
 
-export default function Login() {
+export default function Login(props) {
+  const [alertWarning, setAlertWarning] = useState('');
+
+  useEffect(() => {
+    const { message } = props.location.state;
+    if (message) {
+      setAlertWarning(message);
+    }
+  }, []);
+
   return (
     <>
+      {alertWarning ? <Alert type="warning" message={alertWarning} /> : ''}
       <InitialHeader />
       <div className="greetings text-center">
         <h2>

@@ -1,14 +1,19 @@
 import React from 'react';
 
+import { toast, ToastContainer } from 'react-toastify';
 import PropTypes from 'prop-types';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Alert(props) {
   const { type, message } = props;
 
+  toast[type](message, {
+    position: toast.POSITION.BOTTOM_RIGHT,
+  });
+
   return (
-    <div className={`alert alert-${type}`}>
-      {message}
-    </div>
+    <ToastContainer />
   );
 }
 
