@@ -12,7 +12,10 @@ export default function LoginForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    api.post('/', { user, password }).then(() => {
+    api.post('/', { user, password }).then((response) => {
+      const { token, userId } = response.data;
+      localStorage.setItem('Authorization', `Bearer ${token}`);
+      localStorage.setItem('userId', userId);
       history.push('/notes');
     }, (err) => {
       console.log(err.response.data);
