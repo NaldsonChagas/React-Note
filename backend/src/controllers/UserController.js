@@ -14,9 +14,9 @@ module.exports = {
         email,
         password: passwordUtil.setPassword(password)
       })
-      res.json({ message: 'User saved successfully' })
+      res.json({ message: 'Usuário cadastrado com sucesso' })
     } catch (err) {
-      res.status(500).json({ message: 'The user could not be saved' })
+      res.status(500).json({ message: 'Ocorreu um erro ao realizar o cadastro' })
       throw new Error("Can't save user")
     }
   },
@@ -39,11 +39,11 @@ module.exports = {
       }, { where: { id: userid } })
       res.json({
         id: userid,
-        message: 'User updated successfully'
+        message: 'Informações atualizadas'
       })
     } catch (e) {
       res.status(500)
-        .json({ message: 'The user could not be updated' })
+        .json({ message: 'Não foi possível atualizar as informações' })
       throw new Error('The user could not be updated')
     }
   },
@@ -52,10 +52,10 @@ module.exports = {
 
     try {
       await User.destroy({ where: { id: userid } })
-      res.json({ message: 'User successfully deleted' })
+      res.json({ message: 'Usuário excluído' })
     } catch (e) {
       res.status(500)
-        .json({ message: 'The user could not be deleted' })
+        .json({ message: 'Não foi possível concluir a operação' })
       throw new Error('The user could not be deleted')
     }
   }

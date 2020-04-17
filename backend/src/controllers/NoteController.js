@@ -20,9 +20,9 @@ module.exports = {
         body,
         userId: userid
       })
-      res.json({ message: 'Note created successfully' })
+      res.json({ message: 'Nota salva' })
     } catch (error) {
-      res.status(500).json({ message: 'The note could not be saved' })
+      res.status(500).json({ message: 'Ocorreu um erro ao salvar a nota' })
       throw new Error(error)
     }
   },
@@ -35,9 +35,9 @@ module.exports = {
         title,
         body
       }, { where: { id } })
-      res.json({ message: 'Note updated successfully' })
+      res.json({ message: 'Nota atualizada com sucesso' })
     } catch (error) {
-      res.status(500).json({ message: 'The note could not be updated' })
+      res.status(500).json({ message: 'A nota não pode ser atualizada no momento' })
       throw new Error(error)
     }
   },
@@ -46,9 +46,9 @@ module.exports = {
 
     try {
       await Note.destroy({ where: { id } })
-      res.json({ message: 'Note successfully deleted' })
+      res.json({ message: 'Nota excluída' })
     } catch (error) {
-      res.status(500).json({ message: 'The note cannot be deleted' })
+      res.status(500).json({ message: 'Ocorreu um erro ao deletar a nota' })
       throw new Error(error)
     }
   }

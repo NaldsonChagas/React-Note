@@ -31,6 +31,6 @@ module.exports = {
         })
       }
     }
-    res.status(401).json({ message: 'Invalid credentials' })
+    res.status(401).json({ message: 'Nome de usuário ou senha incorretos' })
   }
 }
