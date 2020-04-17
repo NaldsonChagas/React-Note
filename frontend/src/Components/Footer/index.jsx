@@ -4,7 +4,7 @@ import './style.css';
 
 export default function Footer() {
   return (
-    <footer className="fixed-bottom text-center">
+    <footer className="text-center">
       <span>
         Made with
         <span role="img" aria-label="footer">❤️</span>

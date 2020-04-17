@@ -24,5 +24,5 @@ ProtectedRouter.defaultProps = {
 
 ProtectedRouter.propTypes = {
   path: PropTypes.string,
-  component: PropTypes.element,
+  component: PropTypes.elementType,
 };
