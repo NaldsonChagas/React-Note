@@ -21,6 +21,7 @@ const User = connection.define('user', {
   username: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true,
       len: [2, 20],
@@ -30,6 +31,7 @@ const User = connection.define('user', {
   email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: true,
       isEmail: true
