@@ -17,6 +17,7 @@ export default function Register(props) {
 
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasUsernameError, setHasUsernameError] = useState(false);
+  const [isPasswordEquivalents, setIsPasswordEquivalents] = useState(true);
 
   useEffect(() => {
     setName(props.location.state.name);
@@ -33,6 +34,10 @@ export default function Register(props) {
       setHasUsernameError(responseUsername.data);
       setHasEmailError(responseEmail.data);
     }
+  }
+
+  function checkEquivalence() {
+    setIsPasswordEquivalents(password === confirmPassword);
   }
 
   return (
@@ -135,7 +140,7 @@ export default function Register(props) {
               type="password"
               name="password"
               id="password"
-              className="form-control"
+              className={`form-control ${isPasswordEquivalents ? '' : 'is-invalid'}`}
               required
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -149,10 +154,18 @@ export default function Register(props) {
               type="password"
               name="confirmPassword"
               id="confirmPassword"
-              className="form-control"
+              className={`form-control ${isPasswordEquivalents ? '' : 'is-invalid'}`}
               required
               onChange={(e) => setConfirmPassword(e.target.value)}
+              onBlur={checkEquivalence}
             />
+            {!isPasswordEquivalents
+              ? (
+                <small id="confirmPasswordError" className="text-danger">
+                  As senhas não se equivalem
+                </small>
+              )
+              : ''}
           </div>
 
           <button
