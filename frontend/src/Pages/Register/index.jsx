@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import InitialHeader from '../../Components/InitialHeader';
 import Footer from '../../Components/Footer';
 
@@ -115,8 +114,8 @@ export default function Register(props) {
             </label>
             <input
               type="password"
-              name="password"
-              id="password"
+              name="confirmPassword"
+              id="confirmPassword"
               className="form-control"
               required
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -135,16 +134,3 @@ export default function Register(props) {
     </>
   );
 }
-
-Register.defaultProps = {
-  location: {
-    state: {
-      name: '',
-      email: '',
-    },
-  },
-};
-
-Register.propTypes = {
-  location: PropTypes.oneOfType([PropTypes.object]),
-};

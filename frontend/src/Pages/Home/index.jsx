@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 
 import './style.css';
+
 import LoginForm from '../../Components/LoginForm';
 import FirstStepRegister from '../../Components/FirstStepRegister';
 import InitialHeader from '../../Components/InitialHeader';
 import Alert from '../../Components/Alert';
 
-export default function Login(props) {
+
+export default function Home(props) {
   const [alertWarning, setAlertWarning] = useState('');
 
   useEffect(() => {
-    const { message } = props.location.state;
-    if (message) {
-      setAlertWarning(message);
+    if (props.location.state) {
+      const { message } = props.location.state;
+      if (message) {
+        setAlertWarning(message);
+      }
     }
   }, []);
 
