@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import InitialHeader from '../../Components/InitialHeader';
 import Footer from '../../Components/Footer';
 
+import api from '../../services/api';
+
 import './style.css';
 
 export default function Register(props) {
@@ -13,10 +15,25 @@ export default function Register(props) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
 
+  const [hasEmailError, setHasEmailError] = useState(false);
+  const [hasUsernameError, setHasUsernameError] = useState(false);
+
   useEffect(() => {
     setName(props.location.state.name);
     setEmail(props.location.state.email);
   }, []);
+
+  async function checkExistingNameOrEmail() {
+    if (username && email) {
+      const responseUsername = await api
+        .get(`/validator/username/${username}`);
+      const responseEmail = await api
+        .get(`/validator/email/${email}`);
+
+      setHasUsernameError(responseUsername.data);
+      setHasEmailError(responseEmail.data);
+    }
+  }
 
   return (
     <>
@@ -69,12 +86,20 @@ export default function Register(props) {
                   type="email"
                   name="email"
                   id="email"
-                  className="form-control"
+                  className={`form-control ${hasEmailError ? 'is-invalid' : ''}`}
                   placeholder="Email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onBlur={checkExistingNameOrEmail}
                 />
+                {hasEmailError
+                  ? (
+                    <small id="usernameError" className="text-danger">
+                      Email já cadastrado
+                    </small>
+                  )
+                  : ''}
               </div>
             </div>
             <div className="col">
@@ -86,10 +111,18 @@ export default function Register(props) {
                   type="text"
                   name="username"
                   id="username"
-                  className="form-control"
+                  className={`form-control ${hasUsernameError ? 'is-invalid' : ''}`}
                   required
                   onChange={(e) => setUsername(e.target.value)}
+                  onBlur={checkExistingNameOrEmail}
                 />
+                {hasUsernameError
+                  ? (
+                    <small id="usernameError" className="text-danger">
+                      Esse nome de usuário já existe
+                    </small>
+                  )
+                  : ''}
               </div>
             </div>
           </div>
@@ -125,6 +158,7 @@ export default function Register(props) {
           <button
             type="submit"
             className="btn btn-block btn-success"
+            disabled={hasEmailError || hasUsernameError}
           >
             Concluir cadastro
           </button>
