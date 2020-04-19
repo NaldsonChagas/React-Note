@@ -1,7 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import InitialHeader from '../../Components/InitialHeader';
 import Footer from '../../Components/Footer';
+import Alert from '../../Components/Alert';
 
 import api from '../../services/api';
 
@@ -15,9 +18,13 @@ export default function Register(props) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
 
+  const [alert, setAlert] = useState('');
+
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasUsernameError, setHasUsernameError] = useState(false);
   const [isPasswordEquivalents, setIsPasswordEquivalents] = useState(true);
+
+  const history = useHistory();
 
   useEffect(() => {
     setName(props.location.state.name);
@@ -40,15 +47,53 @@ export default function Register(props) {
     setIsPasswordEquivalents(password === confirmPassword);
   }
 
+  function hasError() {
+    return hasEmailError
+    || hasUsernameError
+    || !isPasswordEquivalents;
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (name && surname && email
+      && username && password && !hasError()) {
+      try {
+        await api.post('/user', {
+          name,
+          surname,
+          username,
+          email,
+          password,
+        });
+        history.push({
+          pathname: '/',
+          state: {
+            message: 'Cadastro realizado com sucesso!',
+            email,
+          },
+        });
+      } catch (error) {
+        setAlert('Ocorreu um erro ao concluir a operação');
+      }
+    } else {
+      setAlert('Confira seus dados e tente novamente');
+    }
+  }
+
   return (
     <>
+      {alert ? <Alert type="error" message={alert} /> : ''}
       <InitialHeader />
       <div className="container">
         <h3 className="text-center">
           Falta pouco...
           <span role="img" aria-label="winking-face">😉</span>
         </h3>
-        <form className="col-md-5 col-sm-5 col-lg-5">
+        <form
+          className="col-md-6 col-sm-6 col-lg-6"
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <div className="row">
             <div className="col">
               <div className="form-group">
@@ -171,7 +216,7 @@ export default function Register(props) {
           <button
             type="submit"
             className="btn btn-block btn-success"
-            disabled={hasEmailError || hasUsernameError}
+            disabled={hasError()}
           >
             Concluir cadastro
           </button>
