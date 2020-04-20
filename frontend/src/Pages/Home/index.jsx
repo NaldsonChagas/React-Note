@@ -31,19 +31,19 @@ export default function Home(props) {
         </h2>
       </div>
       <div className="container identification-box">
-        <div className="col-md-6 float-right">
-          <h3>
-            Já tenho conta
-            <span role="img" aria-label="smile-eyes">😁</span>
-          </h3>
-          <LoginForm />
-        </div>
         <div className="float-left col-md-6">
           <h3>
             Quero me cadastrar
             <span role="img" aria-label="grinning-face">😀</span>
           </h3>
           <FirstStepRegister />
+        </div>
+        <div className="col-md-6 float-right">
+          <h3>
+            Já tenho conta
+            <span role="img" aria-label="smile-eyes">😁</span>
+          </h3>
+          <LoginForm />
         </div>
       </div>
     </>
