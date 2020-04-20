@@ -12,10 +12,12 @@ export default function FirstStepRegister() {
   const history = useHistory();
 
   async function checkExistingEmail() {
-    const responseEmail = await api
-      .get(`/validator/email/${email}`);
+    if (email) {
+      const responseEmail = await api
+        .get(`/validator/email/${email}`);
 
-    setHasEmailError(responseEmail.data);
+      setHasEmailError(responseEmail.data);
+    }
   }
 
   function handleSubmit(event) {

@@ -9,20 +9,22 @@ import Alert from '../../Components/Alert';
 
 
 export default function Home(props) {
-  const [alertWarning, setAlertWarning] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('');
 
   useEffect(() => {
     if (props.location.state) {
-      const { message } = props.location.state;
-      if (message) {
-        setAlertWarning(message);
+      const { alert } = props.location.state;
+      if (alert) {
+        setAlertMessage(alert.message);
+        setAlertType(alert.type);
       }
     }
   }, []);
 
   return (
     <>
-      {alertWarning ? <Alert type="warning" message={alertWarning} /> : ''}
+      {alertMessage ? <Alert type={alertType} message={alertMessage} /> : ''}
       <InitialHeader />
       <div className="greetings text-center">
         <h2>

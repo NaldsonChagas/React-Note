@@ -18,7 +18,10 @@ export default function ProtectedRouter(props) {
     <Redirect to={{
       pathname: '/',
       state: {
-        message: 'Faça login primeiro',
+        alert: {
+          message: 'Faça login primeiro',
+          type: 'warning',
+        },
       },
     }}
     />

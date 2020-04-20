@@ -69,7 +69,10 @@ export default function Register(props) {
         history.push({
           pathname: '/',
           state: {
-            message: 'Cadastro realizado com sucesso!',
+            alert: {
+              message: 'Cadastro realizado com sucesso!',
+              type: 'success',
+            },
             email,
           },
         });
