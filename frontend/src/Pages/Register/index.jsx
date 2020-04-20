@@ -22,6 +22,7 @@ export default function Register(props) {
 
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasUsernameError, setHasUsernameError] = useState(false);
+  const [hasPasswordError, setHasPasswordError] = useState(false);
   const [isPasswordEquivalents, setIsPasswordEquivalents] = useState(true);
 
   const history = useHistory();
@@ -45,6 +46,16 @@ export default function Register(props) {
 
   function checkEquivalence() {
     setIsPasswordEquivalents(password === confirmPassword);
+  }
+
+  function validatorPassword() {
+    if (password) {
+      if (!(password.length >= 6)) {
+        setHasPasswordError(true);
+      } else {
+        setHasPasswordError(false);
+      }
+    }
   }
 
   function hasError() {
@@ -188,10 +199,19 @@ export default function Register(props) {
               type="password"
               name="password"
               id="password"
-              className={`form-control ${isPasswordEquivalents ? '' : 'is-invalid'}`}
+              className={`form-control ${hasPasswordError
+                ? 'is-invalid' : ''}`}
               required
               onChange={(e) => setPassword(e.target.value)}
+              onBlur={validatorPassword}
             />
+            {hasPasswordError
+              ? (
+                <small id="PasswordError" className="text-danger">
+                  A senha deve ter 6 caracteres ou mais
+                </small>
+              )
+              : ''}
           </div>
 
           <div className="form-group">
