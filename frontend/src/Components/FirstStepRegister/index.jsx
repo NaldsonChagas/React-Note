@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
+import InputMessageError from '../InputMessageError';
 
 export default function FirstStepRegister() {
   const [name, setName] = useState('');
@@ -16,7 +17,7 @@ export default function FirstStepRegister() {
       const responseEmail = await api
         .get(`/validator/email/${email}`);
 
-      setHasEmailError(responseEmail.data);
+      setHasEmailError(!!responseEmail.data);
     }
   }
 
@@ -51,12 +52,10 @@ export default function FirstStepRegister() {
           onBlur={checkExistingEmail}
           required
         />
-        {hasEmailError
-          ? (
-            <small id="emailError" className="text-danger">
-              Email já cadastrado
-            </small>
-          ) : ''}
+        <InputMessageError
+          condition={hasEmailError}
+          message="Email já cadastrado"
+        />
       </div>
 
       <button

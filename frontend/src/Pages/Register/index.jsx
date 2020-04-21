@@ -9,6 +9,7 @@ import Alert from '../../Components/Alert';
 import api from '../../services/api';
 
 import './style.css';
+import InputMessageError from '../../Components/InputMessageError';
 
 export default function Register(props) {
   const [name, setName] = useState('');
@@ -39,8 +40,8 @@ export default function Register(props) {
       const responseEmail = await api
         .get(`/validator/email/${email}`);
 
-      setHasUsernameError(responseUsername.data);
-      setHasEmailError(responseEmail.data);
+      setHasUsernameError(!!responseUsername.data);
+      setHasEmailError(!!responseEmail.data);
     }
   }
 
@@ -157,13 +158,10 @@ export default function Register(props) {
                   onChange={(e) => setEmail(e.target.value)}
                   onBlur={checkExistingNameOrEmail}
                 />
-                {hasEmailError
-                  ? (
-                    <small id="usernameError" className="text-danger">
-                      Email já cadastrado
-                    </small>
-                  )
-                  : ''}
+                <InputMessageError
+                  condition={hasEmailError}
+                  message="Email já cadastrado"
+                />
               </div>
             </div>
             <div className="col">
@@ -180,13 +178,10 @@ export default function Register(props) {
                   onChange={(e) => setUsername(e.target.value)}
                   onBlur={checkExistingNameOrEmail}
                 />
-                {hasUsernameError
-                  ? (
-                    <small id="usernameError" className="text-danger">
-                      Esse nome de usuário já existe
-                    </small>
-                  )
-                  : ''}
+                <InputMessageError
+                  condition={hasUsernameError}
+                  message="Esse nome de usuário já existe"
+                />
               </div>
             </div>
           </div>
@@ -205,13 +200,10 @@ export default function Register(props) {
               onChange={(e) => setPassword(e.target.value)}
               onBlur={validatorPassword}
             />
-            {hasPasswordError
-              ? (
-                <small id="PasswordError" className="text-danger">
-                  A senha deve ter 6 caracteres ou mais
-                </small>
-              )
-              : ''}
+            <InputMessageError
+              condition={hasPasswordError}
+              message="A senha deve ter 6 caracteres ou mais"
+            />
           </div>
 
           <div className="form-group">
@@ -227,13 +219,10 @@ export default function Register(props) {
               onChange={(e) => setConfirmPassword(e.target.value)}
               onBlur={checkEquivalence}
             />
-            {!isPasswordEquivalents
-              ? (
-                <small id="confirmPasswordError" className="text-danger">
-                  As senhas não se equivalem
-                </small>
-              )
-              : ''}
+            <InputMessageError
+              condition={!isPasswordEquivalents}
+              message="As senhas não se equivalem"
+            />
           </div>
 
           <button
