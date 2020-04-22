@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import InitialHeader from '../../Components/InitialHeader';
 import Footer from '../../Components/Footer';
 import Alert from '../../Components/Alert';
 
@@ -10,6 +9,7 @@ import api from '../../services/api';
 
 import './style.css';
 import InputMessageError from '../../Components/InputMessageError';
+import Header from '../../Components/Header';
 
 export default function Register(props) {
   const [name, setName] = useState('');
@@ -99,7 +99,7 @@ export default function Register(props) {
   return (
     <>
       {alert ? <Alert type="error" message={alert} /> : ''}
-      <InitialHeader />
+      <Header />
       <div className="container">
         <h3 className="text-center">
           Falta pouco...

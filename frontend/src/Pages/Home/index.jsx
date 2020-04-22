@@ -4,8 +4,8 @@ import './style.css';
 
 import LoginForm from '../../Components/LoginForm';
 import FirstStepRegister from '../../Components/FirstStepRegister';
-import InitialHeader from '../../Components/InitialHeader';
 import Alert from '../../Components/Alert';
+import Header from '../../Components/Header';
 
 
 export default function Home(props) {
@@ -25,7 +25,7 @@ export default function Home(props) {
   return (
     <>
       {alertMessage ? <Alert type={alertType} message={alertMessage} /> : ''}
-      <InitialHeader />
+      <Header />
       <div className="greetings text-center">
         <h2>
           Olá

@@ -1,0 +1,29 @@
+header {
+  background-color: #00c472;
+  padding: 1.3em;
+}
+
+header a {
+  color: #ffffff;
+}
+
+header a:hover {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.logged-user {
+  background: #009154;
+  margin: 0;
+  padding: 0.3em;
+  color: #fff;
+}
+
+.logged-user a {
+  color:#fff;
+  text-decoration: underline;
+}
+
+.logged-user a:hover {
+  color:#fff;
+}
