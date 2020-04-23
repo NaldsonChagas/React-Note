@@ -25,7 +25,7 @@ const User = connection.define('user', {
     validate: {
       notEmpty: true,
       len: [2, 20],
-      not: /[ `´!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+      not: /[ `´!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/
     }
   },
   email: {

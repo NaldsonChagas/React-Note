@@ -15,12 +15,12 @@ module.exports = {
     const { title, body } = req.body
 
     try {
-      await Note.create({
+      const note = await Note.create({
         title,
         body,
         userId: userid
       })
-      res.json({ message: 'Nota salva' })
+      res.json({ message: 'Nota salva', note })
     } catch (error) {
       res.status(500).json({ message: 'Ocorreu um erro ao salvar a nota' })
       throw new Error(error)
