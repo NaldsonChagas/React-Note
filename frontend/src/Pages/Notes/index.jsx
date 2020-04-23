@@ -8,7 +8,7 @@ import api from '../../services/api';
 import './style.css';
 
 export default function Notes() {
-  const [notes, setNotes] = useState();
+  const [notes, setNotes] = useState([]);
 
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
@@ -30,21 +30,33 @@ export default function Notes() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const response = await api.post('/note', {
-      title, body,
-    }, {
-      headers: {
-        Authorization: localStorage.getItem('Authorization'),
-        userId: localStorage.getItem('userId'),
-      },
-    });
+    if (title && body) {
+      const response = await api.post('/note', {
+        title, body,
+      }, {
+        headers: {
+          Authorization: localStorage.getItem('Authorization'),
+          userId: localStorage.getItem('userId'),
+        },
+      });
 
-    if (response.status === 200) {
-      setAlertType('success');
-      setAlertMessage(response.data.message);
-    } else {
-      setAlertType('warning');
-      setAlertMessage(response.data.message);
+      if (response.status === 200) {
+        const { message, note } = response.data;
+        setAlertType('success');
+        setAlertMessage(message);
+        setTitle('');
+        setBody('');
+
+        setNotes([...notes, {
+          title: note.title,
+          body: note.body,
+          id: note.id,
+          createdAt: note.createdAt,
+        }]);
+      } else {
+        setAlertType('warning');
+        setAlertMessage(response.data.message);
+      }
     }
   }
 
@@ -69,6 +81,7 @@ export default function Notes() {
                     name="title"
                     className="form-control"
                     onChange={(e) => setTitle(e.target.value)}
+                    value={title}
                   />
                 </div>
                 <div className="form-group">
@@ -78,6 +91,7 @@ export default function Notes() {
                     name="body"
                     id="body"
                     onChange={(e) => setBody(e.target.value)}
+                    value={body}
                   />
                 </div>
                 <button
@@ -89,6 +103,26 @@ export default function Notes() {
               </form>
             </div>
           </div>
+        </div>
+
+        <div className="row">
+          {notes.map((note) => (
+            <div className="col-md-4" key={note.id}>
+              <div className="card note-card">
+                <div className="card-header">
+                  {note.title}
+                </div>
+                <div className="card-body">
+                  {note.body}
+                </div>
+                <div className="card-footer text-muted text-right">
+                  {
+                  new Intl.DateTimeFormat('pt-BR').format(new Date(note.createdAt))
+                  }
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Footer />
