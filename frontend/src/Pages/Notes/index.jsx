@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
@@ -60,6 +61,26 @@ export default function Notes() {
     }
   }
 
+  async function handleClickDelete(noteId) {
+    if (window.confirm('Deseja mesmo excluir esta nota?')) {
+      const response = await api.delete(`/note/${noteId}`, {
+        headers: {
+          Authorization: localStorage.getItem('Authorization'),
+          userId: localStorage.getItem('userId'),
+        },
+      });
+
+      if (response.status === 200) {
+        setAlertType('success');
+        setAlertMessage('Nota excluída com sucesso');
+        setNotes(notes.filter((n) => n.id !== noteId));
+      } else {
+        setAlertType('warning');
+        setAlertMessage('Não foi possível excluir a nota');
+      }
+    }
+  }
+
   return (
     <>
       {alertMessage
@@ -110,7 +131,25 @@ export default function Notes() {
             <div className="col-md-4" key={note.id}>
               <div className="card note-card">
                 <div className="card-header">
-                  {note.title}
+                  <div className="note-title">
+                    {note.title}
+                    <div className="float-right">
+                      <button
+                        className="btn-sm btn-primary btn"
+                        type="button"
+                      >
+                        Alterar
+                      </button>
+                      &nbsp;
+                      <button
+                        className="btn-sm btn-danger btn"
+                        type="button"
+                        onClick={() => handleClickDelete(note.id)}
+                      >
+                        Excluir
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <div className="card-body">
                   {note.body}
