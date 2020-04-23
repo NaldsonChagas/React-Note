@@ -8,9 +8,14 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Alert(props) {
   const { type, message } = props;
 
-  toast[type](message, {
-    position: toast.POSITION.BOTTOM_RIGHT,
-  });
+  const toastId = message.substr(0, 10);
+
+  if (!toast.isActive(toastId)) {
+    toast[type](message, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      toastId,
+    });
+  }
 
   return (
     <ToastContainer />
