@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
@@ -8,20 +8,21 @@ import './style.css';
 export default function Header() {
   const [loggedUser, setLoggedUser] = useState('');
 
-  (async function getLoggedUser() {
+  useEffect(() => {
     const jwtToken = localStorage.getItem('Authorization');
     const userId = localStorage.getItem('userId');
 
     if (jwtToken && userId) {
-      const response = await api.get('/profile', {
+      api.get('/profile', {
         headers: {
           Authorization: jwtToken,
           userId,
         },
+      }).then((response) => {
+        setLoggedUser(response.data.user);
       });
-      setLoggedUser(response.data.user);
     }
-  }());
+  }, []);
 
   function logout() {
     localStorage.removeItem('Authorization');
