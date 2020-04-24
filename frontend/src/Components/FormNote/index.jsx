@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import api from '../../services/api';
+import PropTypes from 'prop-types';
 
 import './style.css';
 
@@ -13,22 +13,11 @@ export default function FormNote(props) {
 
     if (title && body) {
       try {
-        const response = await api.post('/note', {
-          title, body,
-        }, {
-          headers: {
-            Authorization: localStorage.getItem('Authorization'),
-            userId: localStorage.getItem('userId'),
-          },
-        });
-        const { message, note } = response.data;
-        props.addNote(note, message);
-
+        props.addNote({ title, body });
         setTitle('');
         setBody('');
       } catch (err) {
-        props.addNote(null,
-          'Ocorreu um erro ao adicionar a nota');
+        props.addNote(null);
       }
     }
   }
@@ -73,3 +62,7 @@ export default function FormNote(props) {
     </div>
   );
 }
+
+FormNote.PropType = {
+  addNote: PropTypes.func,
+};

@@ -31,17 +31,28 @@ export default function Notes() {
     setAlertMessage(message);
   }
 
-  function addNote(note, message) {
-    if (note) {
+  async function addNote(noteForSave) {
+    if (noteForSave) {
+      const response = await api.post('/note', {
+        title: noteForSave.title,
+        body: noteForSave.body,
+      }, {
+        headers: {
+          Authorization: localStorage.getItem('Authorization'),
+          userId: localStorage.getItem('userId'),
+        },
+      });
+      const { message, note } = response.data;
+      addAlert('success', message);
       setNotes([...notes, {
         title: note.title,
         body: note.body,
         id: note.id,
         createdAt: note.createdAt,
       }]);
-      addAlert('success', message);
     } else {
-      addAlert('danger', message);
+      addAlert('danger',
+        'Ocorreu um erro ao salvar a nota');
     }
   }
 
