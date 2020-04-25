@@ -90,13 +90,15 @@ export default function Notes() {
         },
       });
       const { message, note } = response.data;
-      addAlert('success', message);
       setNotes([...notes, {
         title: note.title,
         body: note.body,
         id: note.id,
         createdAt: note.createdAt,
+        updatedAt: note.updatedAt,
+        userId: note.userId,
       }]);
+      addAlert('success', message);
     } else {
       addAlert('danger',
         'Ocorreu um erro ao salvar a nota');
