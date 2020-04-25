@@ -6,7 +6,12 @@ module.exports = {
     const { userid } = req.headers
 
     const notes = await Note
-      .findAll({ where: { userId: userid } })
+      .findAll({
+        where: { userId: userid },
+        order: [
+          ['id', 'DESC']
+        ]
+      })
 
     res.json({ notes })
   },
@@ -35,7 +40,14 @@ module.exports = {
         title,
         body
       }, { where: { id } })
-      res.json({ message: 'Nota atualizada com sucesso' })
+
+      const note = await Note.findOne({
+        where: {
+          id
+        }
+      })
+
+      res.json({ message: 'Nota atualizada com sucesso', note })
     } catch (error) {
       res.status(500).json({ message: 'A nota não pode ser atualizada no momento' })
       throw new Error(error)
