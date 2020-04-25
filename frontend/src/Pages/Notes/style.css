@@ -2,6 +2,10 @@
   margin-top: 2em;
 }
 
+.new-note {
+  margin: 0 auto;
+}
+
 .card-body form {
   margin: 0;
 }

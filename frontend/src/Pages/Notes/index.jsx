@@ -1,16 +1,21 @@
 /* eslint-disable no-alert */
 import React, { useEffect, useState } from 'react';
+import $ from 'jquery';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
 import Alert from '../../Components/Alert';
+import FormNote from '../../Components/FormNote';
 
 import api from '../../services/api';
 
 import './style.css';
-import FormNote from '../../Components/FormNote';
+import 'bootstrap/js/dist/modal';
+import ModalUpdateNote from '../../Components/ModalUpdateNote';
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
+
+  const [noteForUpdate, setNoteForUpdate] = useState('');
 
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('');
@@ -29,6 +34,48 @@ export default function Notes() {
   function addAlert(type, message) {
     setAlertType(type);
     setAlertMessage(message);
+  }
+
+  function modalUpdateNote(note) {
+    $('.modal').modal('show');
+    setNoteForUpdate(note);
+  }
+
+  function orderNotes() {
+    setNotes(notes.sort((a, b) => {
+      if (a.id > b.id) return -1;
+      if (a.id < b.id) return 1;
+      return 0;
+    }));
+  }
+
+  useEffect(() => {
+    orderNotes();
+  }, [notes]);
+
+  async function updateNote(noteForSave) {
+    if (noteForSave) {
+      try {
+        const response = await api.put(`/note/${noteForSave.id}`, {
+          id: noteForSave.id,
+          title: noteForSave.title,
+          body: noteForSave.body,
+        }, {
+          headers: {
+            Authorization: localStorage.getItem('Authorization'),
+            userId: localStorage.getItem('userId'),
+          },
+        });
+        const { message, note } = response.data;
+        setNotes([...notes
+          .filter((n) => n.id !== noteForSave.id), note]);
+        addAlert('success', message);
+        $('.modal').modal('hide');
+      } catch (err) {
+        addAlert('danger',
+          'Ocorreu um erro ao atualizar a nota');
+      }
+    }
   }
 
   async function addNote(noteForSave) {
@@ -81,7 +128,16 @@ export default function Notes() {
         : ''}
       <Header />
       <div className="container notes">
-        <FormNote addNote={addNote} />
+        <div className="col-md-8 new-note">
+          <div className="card">
+            <div className="card-header">
+              Nova nota
+            </div>
+            <div className="card-body">
+              <FormNote addNote={addNote} />
+            </div>
+          </div>
+        </div>
         <div className="row">
           {notes.map((note) => (
             <div className="col-md-4" key={note.id}>
@@ -91,14 +147,15 @@ export default function Notes() {
                     {note.title}
                     <div className="float-right">
                       <button
-                        className="btn-sm btn-primary btn"
+                        className="btn-sm btn-link btn"
                         type="button"
+                        onClick={() => modalUpdateNote(note)}
                       >
                         Alterar
                       </button>
-                      &nbsp;
+
                       <button
-                        className="btn-sm btn-danger btn"
+                        className="btn-sm btn-link btn"
                         type="button"
                         onClick={() => handleClickDelete(note.id)}
                       >
@@ -122,6 +179,13 @@ export default function Notes() {
         </div>
       </div>
       <Footer />
+
+      <ModalUpdateNote>
+        <FormNote
+          addNote={updateNote}
+          note={noteForUpdate}
+        />
+      </ModalUpdateNote>
     </>
   );
 }
