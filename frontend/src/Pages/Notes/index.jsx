@@ -67,9 +67,9 @@ export default function Notes() {
           },
         });
         const { message, note } = response.data;
+        addAlert('success', message);
         setNotes([...notes
           .filter((n) => n.id !== noteForSave.id), note]);
-        addAlert('success', message);
         $('.modal').modal('hide');
       } catch (err) {
         addAlert('danger',
@@ -90,6 +90,7 @@ export default function Notes() {
         },
       });
       const { message, note } = response.data;
+      addAlert('success', message);
       setNotes([...notes, {
         title: note.title,
         body: note.body,
@@ -98,7 +99,6 @@ export default function Notes() {
         updatedAt: note.updatedAt,
         userId: note.userId,
       }]);
-      addAlert('success', message);
     } else {
       addAlert('danger',
         'Ocorreu um erro ao salvar a nota');
@@ -125,9 +125,7 @@ export default function Notes() {
 
   return (
     <>
-      {alertMessage
-        ? <Alert message={alertMessage} type={alertType} />
-        : ''}
+      <Alert message={alertMessage} type={alertType} />
       <Header />
       <div className="container notes">
         <div className="col-md-8 new-note">

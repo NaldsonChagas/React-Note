@@ -8,7 +8,7 @@ const dbConfig = {
 }
 
 const connection = new Sequelize(
-  'react_notes', dbConfig.username, dbConfig.password, {
+  dbConfig.db, dbConfig.username, dbConfig.password, {
     host: dbConfig.host,
     dialect: 'postgres'
   })

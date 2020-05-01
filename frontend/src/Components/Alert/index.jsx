@@ -10,15 +10,19 @@ export default function Alert(props) {
 
   const toastId = message.substr(0, 10);
 
-  if (!toast.isActive(toastId)) {
-    toast[type](message, {
-      position: toast.POSITION.BOTTOM_RIGHT,
-      toastId,
-    });
+  if (type && message) {
+    if (!toast.isActive(toastId)) {
+      toast[type](message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        toastId,
+      });
+    }
   }
 
   return (
-    <ToastContainer />
+    message
+      ? <ToastContainer />
+      : ''
   );
 }
 
