@@ -8,19 +8,19 @@ import Alert from '../../Components/Alert';
 import Header from '../../Components/Header';
 
 
-export default function Home(props) {
+export default function Home({ location }) {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('');
 
   useEffect(() => {
-    if (props.location.state) {
-      const { alert } = props.location.state;
+    if (location.state) {
+      const { alert } = location.state;
       if (alert) {
         setAlertMessage(alert.message);
         setAlertType(alert.type);
       }
     }
-  }, []);
+  }, [location.state]);
 
   return (
     <>

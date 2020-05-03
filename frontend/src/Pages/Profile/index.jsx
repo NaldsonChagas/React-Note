@@ -19,6 +19,8 @@ export default function Profile() {
     });
   }, []);
 
+  function handleClickUpdate() {}
+
   return (
     <>
       <Header />
@@ -56,7 +58,13 @@ export default function Profile() {
             </table>
           </div>
           <div className="card-footer">
-            <h6>Alterar meus dados</h6>
+            <button
+              className="btn-link btn"
+              onClick={() => handleClickUpdate}
+              type="button"
+            >
+              Alterar meus dados
+            </button>
           </div>
         </div>
       </div>
