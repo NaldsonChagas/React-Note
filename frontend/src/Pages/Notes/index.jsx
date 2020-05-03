@@ -5,12 +5,12 @@ import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
 import Alert from '../../Components/Alert';
 import FormNote from '../../Components/FormNote';
+import Modal from '../../Components/Modal';
 
 import api from '../../services/api';
 
 import './style.css';
 import 'bootstrap/js/dist/modal';
-import ModalUpdateNote from '../../Components/ModalUpdateNote';
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
@@ -180,12 +180,12 @@ export default function Notes() {
       </div>
       <Footer />
 
-      <ModalUpdateNote>
+      <Modal>
         <FormNote
           addNote={updateNote}
           note={noteForUpdate}
         />
-      </ModalUpdateNote>
+      </Modal>
     </>
   );
 }
