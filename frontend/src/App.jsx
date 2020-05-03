@@ -5,6 +5,7 @@ import Notes from './Pages/Notes';
 import ProtectedRouter from './Utils/ProtectedRouter';
 import Register from './Pages/Register';
 import Home from './Pages/Home';
+import Profile from './Pages/Profile';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route component={Home} path="/" exact />
         <Route component={Register} path="/register" />
         <ProtectedRouter component={Notes} path="/notes" />
+        <ProtectedRouter component={Profile} path="/profile" />
       </Switch>
     </BrowserRouter>
   );
