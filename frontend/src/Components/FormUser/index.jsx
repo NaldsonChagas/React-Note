@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
+import PropTypes from 'prop-types';
 import api from '../../services/api';
 
 import InputMessageError from '../InputMessageError';
 
-import './style.css';
-
-export default function FormUser({ saveUser, user }) {
+export default function FormUser({ saveUser, user, formForUpdate }) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
@@ -49,7 +48,7 @@ export default function FormUser({ saveUser, user }) {
   }
 
   async function checkExistingNameOrEmail() {
-    if (username && email) {
+    if (username && email && !formForUpdate) {
       const responseUsername = await api
         .get(`/validator/username/${username}`);
       const responseEmail = await api
@@ -65,7 +64,7 @@ export default function FormUser({ saveUser, user }) {
   }
 
   function validatorPassword() {
-    if (password) {
+    if (password && !formForUpdate) {
       if (!(password.length >= 6)) {
         setHasPasswordError(true);
       } else {
@@ -76,7 +75,6 @@ export default function FormUser({ saveUser, user }) {
 
   return (
     <form
-      className="col-md-6 col-sm-6 col-lg-6"
       onSubmit={(e) => handleSubmit(e)}
     >
       <div className="row">
@@ -107,6 +105,7 @@ export default function FormUser({ saveUser, user }) {
               id="surname"
               className="form-control"
               required
+              value={surname}
               onChange={(e) => setSurname(e.target.value)}
             />
           </div>
@@ -176,25 +175,28 @@ export default function FormUser({ saveUser, user }) {
           message="A senha deve ter 6 caracteres ou mais"
         />
       </div>
+      {!formForUpdate ? (
+        <div className="form-group">
+          <label htmlFor="confirmPassword">
+            Confirme sua senha
+          </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            className={`form-control ${isPasswordEquivalents ? '' : 'is-invalid'}`}
+            required
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            onBlur={checkEquivalence}
+          />
+          <InputMessageError
+            condition={!isPasswordEquivalents}
+            message="As senhas não se equivalem"
+          />
+        </div>
 
-      <div className="form-group">
-        <label htmlFor="confirmPassword">
-          Confirme sua senha
-        </label>
-        <input
-          type="password"
-          name="confirmPassword"
-          id="confirmPassword"
-          className={`form-control ${isPasswordEquivalents ? '' : 'is-invalid'}`}
-          required
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          onBlur={checkEquivalence}
-        />
-        <InputMessageError
-          condition={!isPasswordEquivalents}
-          message="As senhas não se equivalem"
-        />
-      </div>
+      )
+        : ''}
 
       <button
         type="submit"
@@ -206,3 +208,15 @@ export default function FormUser({ saveUser, user }) {
     </form>
   );
 }
+
+FormUser.defaultProps = {
+  formForUpdate: false,
+  saveUser: () => new Error(
+    'Uma função para submit é necessária nas props',
+  ),
+};
+
+FormUser.propTypes = {
+  formForUpdate: PropTypes.bool,
+  saveUser: PropTypes.func,
+};

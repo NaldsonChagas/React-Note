@@ -65,10 +65,12 @@ export default function Register(props) {
           Falta pouco...
           <span role="img" aria-label="winking-face">😉</span>
         </h3>
-        <FormUser
-          saveUser={handleSubmit}
-          user={user}
-        />
+        <div className="col-md-6 offset-md-3">
+          <FormUser
+            saveUser={handleSubmit}
+            user={user}
+          />
+        </div>
       </div>
       <Footer />
     </>
