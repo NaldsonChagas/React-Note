@@ -127,7 +127,7 @@ export default function Notes() {
     <>
       <Alert message={alertMessage} type={alertType} />
       <Header />
-      <div className="container notes">
+      <div className="container container-margin-top">
         <div className="col-md-8 new-note">
           <div className="card">
             <div className="card-header">

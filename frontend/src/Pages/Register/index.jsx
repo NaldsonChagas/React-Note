@@ -98,7 +98,7 @@ export default function Register(props) {
 
   return (
     <>
-      {alert ? <Alert type="error" message={alert} /> : ''}
+      <Alert type="error" message={alert} />
       <Header />
       <div className="container">
         <h3 className="text-center">

@@ -24,7 +24,7 @@ export default function Home(props) {
 
   return (
     <>
-      {alertMessage ? <Alert type={alertType} message={alertMessage} /> : ''}
+      <Alert type={alertType} message={alertMessage} />
       <Header />
       <div className="greetings text-center">
         <h2>

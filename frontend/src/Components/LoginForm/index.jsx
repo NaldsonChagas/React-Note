@@ -26,7 +26,7 @@ export default function LoginForm() {
 
   return (
     <>
-      {alert ? <Alert type="warning" message={alert} /> : ''}
+      <Alert type="warning" message={alert} />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="form-group">
           <input
