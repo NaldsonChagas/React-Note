@@ -12,7 +12,7 @@ This is a web application made with Node.Js and React. With this app, you can ad
 ![Notes Page](https://i.imgur.com/gxTypyp.png)
 
 * Update user info
-![Update user info](https://i.imgur.com/PqBCKnv.png)
+![Update user info](https://i.imgur.com/9o0ROPa.png)
 
 **Libraries:**
 
