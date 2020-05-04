@@ -15,15 +15,6 @@ export default function Modal({ title, children }) {
           <div className="modal-body">
             {children}
           </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              data-dismiss="modal"
-            >
-              Cancelar
-            </button>
-          </div>
         </div>
       </div>
     </div>
