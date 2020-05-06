@@ -21,8 +21,8 @@ export default function PasswordInputs({
   const [isInsufficientSize,
     setIsinsufficientSize] = useState(false);
 
-  useEffect(() => setPassword(passwordTyped), [passwordTyped]);
-  useEffect(() => setHasPasswordError(hasError), [hasError]);
+  useEffect(() => setPassword(passwordTyped), [passwordTyped, setPassword]);
+  useEffect(() => setHasPasswordError(hasError), [hasError, setHasPasswordError]);
 
   useEffect(() => setHasError(!isPasswordEquivalents),
     [isPasswordEquivalents]);
