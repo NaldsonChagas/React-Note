@@ -145,6 +145,9 @@ export default function FormUser({ saveUser, user, formForUpdate }) {
         setPassword={setPassword}
         setHasPasswordError={setHasPasswordError}
         formForUpdate={formForUpdate}
+        currentPassword={false}
+        label="Senha"
+        showConfirmPassword
       />
 
       <button
