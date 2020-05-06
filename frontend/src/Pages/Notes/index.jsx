@@ -41,18 +41,6 @@ export default function Notes() {
     setNoteForUpdate(note);
   }
 
-  function orderNotes() {
-    setNotes(notes.sort((a, b) => {
-      if (a.id > b.id) return -1;
-      if (a.id < b.id) return 1;
-      return 0;
-    }));
-  }
-
-  useEffect(() => {
-    orderNotes();
-  }, [notes]);
-
   async function updateNote(noteForSave) {
     if (noteForSave) {
       try {
