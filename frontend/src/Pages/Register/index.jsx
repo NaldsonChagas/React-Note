@@ -9,7 +9,7 @@ import Alert from '../../Components/Alert';
 import FormUser from '../../Components/FormUser';
 
 
-export default function Register(props) {
+export default function Register({ location }) {
   const history = useHistory();
 
   const [alert, setAlert] = useState('');
@@ -18,10 +18,10 @@ export default function Register(props) {
 
   useEffect(() => {
     setUser({
-      name: props.location.state.name,
-      email: props.location.state.email,
+      name: location.state.name,
+      email: location.state.email,
     });
-  }, []);
+  }, [location]);
 
   async function handleSubmit(userToSave) {
     const {
