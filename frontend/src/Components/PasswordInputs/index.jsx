@@ -6,7 +6,10 @@ import InputMessageError from '../InputMessageError';
 export default function PasswordInputs({
   setHasPasswordError,
   setPassword,
-  formForUpdate,
+  showConfirmPassword,
+  currentPassword,
+  label,
+  placeholder,
 }) {
   const [passwordTyped, setPasswordTyped] = useState('');
   const [confirmPasswordTyped,
@@ -31,7 +34,7 @@ export default function PasswordInputs({
   }
 
   function validatorPassword() {
-    if (passwordTyped && !formForUpdate) {
+    if (passwordTyped && !currentPassword) {
       if (!(passwordTyped.length >= 6)) {
         setIsinsufficientSize(true);
       } else {
@@ -43,13 +46,17 @@ export default function PasswordInputs({
   return (
     <>
       <div className="form-group">
-        <label htmlFor="password">
-          Senha
-        </label>
+        {label
+          ? (
+            <label htmlFor="password">
+              {label}
+            </label>
+          )
+          : ''}
         <input
           type="password"
           name="password"
-          id="password"
+          placeholder={placeholder || ''}
           className={`form-control ${isInsufficientSize
             ? 'is-invalid' : ''}`}
           required
@@ -61,7 +68,7 @@ export default function PasswordInputs({
           message="A senha deve ter 6 caracteres ou mais"
         />
       </div>
-      {!formForUpdate ? (
+      {showConfirmPassword ? (
         <div className="form-group">
           <label htmlFor="confirmPassword">
             Confirme sua senha
@@ -88,17 +95,21 @@ export default function PasswordInputs({
 }
 
 PasswordInputs.defaultProps = {
-  setHasPasswordError: () => {
-    throw new Error('setHasPassword é necessário');
-  },
   setPassword: () => {
     throw new Error('setPassword é necessário');
   },
-  formForUpdate: false,
+  showConfirmPassword: false,
+  label: '',
+  placeholder: '',
+  currentPassword: true,
+  setHasPasswordError: () => {},
 };
 
 PasswordInputs.propTypes = {
   setHasPasswordError: PropTypes.func,
   setPassword: PropTypes.func,
-  formForUpdate: PropTypes.bool,
+  showConfirmPassword: PropTypes.bool,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  currentPassword: PropTypes.bool,
 };

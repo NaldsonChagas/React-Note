@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import Alert from '../Alert';
+import PasswordInputs from '../PasswordInputs';
 
 export default function LoginForm() {
   const [user, setUser] = useState('');
@@ -38,17 +39,12 @@ export default function LoginForm() {
             required
           />
         </div>
-        <div className="form-group">
-          <input
-            className="form-control"
-            name="password"
-            type="password"
-            id="password"
-            placeholder="Senha"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <PasswordInputs
+          setPassword={setPassword}
+          placeholder="Senha"
+          currentPassword
+          showConfirmPassword={false}
+        />
         <button
           type="submit"
           className="btn btn-sm btn-success"
