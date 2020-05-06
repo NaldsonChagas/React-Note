@@ -41,6 +41,14 @@ export default function Notes() {
     setNoteForUpdate(note);
   }
 
+  function orderNotes(notesForSort) {
+    return notesForSort.sort((a, b) => {
+      if (a.id > b.id) return -1;
+      if (a.id < b.id) return 1;
+      return 0;
+    });
+  }
+
   async function updateNote(noteForSave) {
     if (noteForSave) {
       try {
@@ -56,8 +64,8 @@ export default function Notes() {
         });
         const { message, note } = response.data;
         addAlert('success', message);
-        setNotes([...notes
-          .filter((n) => n.id !== noteForSave.id), note]);
+        setNotes(orderNotes([...notes
+          .filter((n) => n.id !== noteForSave.id), note]));
         $('.modal').modal('hide');
       } catch (err) {
         addAlert('danger',
@@ -79,14 +87,14 @@ export default function Notes() {
       });
       const { message, note } = response.data;
       addAlert('success', message);
-      setNotes([...notes, {
+      setNotes(orderNotes([...notes, {
         title: note.title,
         body: note.body,
         id: note.id,
         createdAt: note.createdAt,
         updatedAt: note.updatedAt,
         userId: note.userId,
-      }]);
+      }]));
     } else {
       addAlert('danger',
         'Ocorreu um erro ao salvar a nota');
