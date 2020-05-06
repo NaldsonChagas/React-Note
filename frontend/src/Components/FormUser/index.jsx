@@ -4,19 +4,18 @@ import PropTypes from 'prop-types';
 import api from '../../services/api';
 
 import InputMessageError from '../InputMessageError';
+import PasswordInputs from '../PasswordInputs';
 
 export default function FormUser({ saveUser, user, formForUpdate }) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [username, setUsername] = useState('');
 
   const [hasEmailError, setHasEmailError] = useState(false);
   const [hasUsernameError, setHasUsernameError] = useState(false);
   const [hasPasswordError, setHasPasswordError] = useState(false);
-  const [isPasswordEquivalents, setIsPasswordEquivalents] = useState(true);
 
   useEffect(() => {
     setName(user.name ? user.name : '');
@@ -28,7 +27,7 @@ export default function FormUser({ saveUser, user, formForUpdate }) {
   function hasError() {
     return hasEmailError
     || hasUsernameError
-    || !isPasswordEquivalents;
+    || hasPasswordError;
   }
 
   function handleSubmit(event) {
@@ -56,20 +55,6 @@ export default function FormUser({ saveUser, user, formForUpdate }) {
 
       setHasUsernameError(!!responseUsername.data);
       setHasEmailError(!!responseEmail.data);
-    }
-  }
-
-  function checkEquivalence() {
-    setIsPasswordEquivalents(password === confirmPassword);
-  }
-
-  function validatorPassword() {
-    if (password && !formForUpdate) {
-      if (!(password.length >= 6)) {
-        setHasPasswordError(true);
-      } else {
-        setHasPasswordError(false);
-      }
     }
   }
 
@@ -156,47 +141,11 @@ export default function FormUser({ saveUser, user, formForUpdate }) {
         </div>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="password">
-          Senha
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          className={`form-control ${hasPasswordError
-            ? 'is-invalid' : ''}`}
-          required
-          onChange={(e) => setPassword(e.target.value)}
-          onBlur={validatorPassword}
-        />
-        <InputMessageError
-          condition={hasPasswordError}
-          message="A senha deve ter 6 caracteres ou mais"
-        />
-      </div>
-      {!formForUpdate ? (
-        <div className="form-group">
-          <label htmlFor="confirmPassword">
-            Confirme sua senha
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            className={`form-control ${isPasswordEquivalents ? '' : 'is-invalid'}`}
-            required
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            onBlur={checkEquivalence}
-          />
-          <InputMessageError
-            condition={!isPasswordEquivalents}
-            message="As senhas não se equivalem"
-          />
-        </div>
-
-      )
-        : ''}
+      <PasswordInputs
+        setPassword={setPassword}
+        setHasPasswordError={setHasPasswordError}
+        formForUpdate={formForUpdate}
+      />
 
       <button
         type="submit"
