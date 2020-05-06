@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function Modal({ title, children }) {
+export default function Modal({ title, children, id }) {
   return (
-    <div className="modal" tabIndex="-1" role="dialog">
+    <div className="modal" tabIndex="-1" role="dialog" id={id}>
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
@@ -23,8 +23,10 @@ export default function Modal({ title, children }) {
 
 Modal.defaultProps = {
   title: 'React Notes',
+  id: 'modal',
 };
 
 Modal.propTypes = {
   title: PropTypes.string,
+  id: PropTypes.string,
 };

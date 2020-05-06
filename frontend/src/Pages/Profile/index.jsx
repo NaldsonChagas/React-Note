@@ -9,9 +9,18 @@ import api from '../../services/api';
 import Alert from '../../Components/Alert';
 
 import './style.css';
+import PasswordInputs from '../../Components/PasswordInputs';
 
 export default function Profile() {
+  const modalUpdateId = 'modalUpdate';
+  const modalUpdatePasswordId = 'modalUpadePassword';
+
   const [profile, setProfile] = useState({});
+
+  const [newPassword, setNewPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [hasPasswordError, setHasPasswordError] = useState(false);
+
 
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('');
@@ -30,7 +39,11 @@ export default function Profile() {
   }, []);
 
   function openModalUpdate() {
-    $('.modal').modal('show');
+    $(`#${modalUpdateId}`).modal('show');
+  }
+
+  function openModalPassword() {
+    $(`#${modalUpdatePasswordId}`).modal('show');
   }
 
   function addAlert(type, message) {
@@ -38,7 +51,7 @@ export default function Profile() {
     setAlertMessage(message);
   }
 
-  async function handleSubmit({
+  async function handleSubmitUpateUser({
     name, surname, email, username, password,
   }) {
     try {
@@ -54,7 +67,7 @@ export default function Profile() {
           userId: localStorage.getItem('userId'),
         },
       });
-      $('.modal').modal('hide');
+      $(`#${modalUpdateId}`).modal('hide');
       setProfile({
         name, surname, email, username,
       });
@@ -62,6 +75,28 @@ export default function Profile() {
     } catch (err) {
       addAlert('error',
         'Ocorreu um erro ao atualizar suas informações');
+    }
+  }
+
+  async function handleSubmitUpatePassword(event) {
+    event.preventDefault();
+    if (!hasPasswordError) {
+      try {
+        const response = await api.put('/user/password', {
+          newPassword,
+          password: currentPassword,
+        }, {
+          headers: {
+            Authorization: localStorage.getItem('Authorization'),
+            userId: localStorage.getItem('userId'),
+          },
+        });
+        addAlert('success', response.data.message);
+        $(`#${modalUpdatePasswordId}`).modal('hide');
+      } catch (err) {
+        addAlert('success',
+          'Não foi possível alterar sua senha');
+      }
     }
   }
 
@@ -97,7 +132,13 @@ export default function Profile() {
                 <tr>
                   <th>Senha</th>
                   <td>
-                    Alterar minha senha
+                    <button
+                      className="btn-link btn"
+                      onClick={openModalPassword}
+                      type="button"
+                    >
+                      Alterar minha senha
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -115,12 +156,41 @@ export default function Profile() {
         </div>
       </div>
       <Footer />
-      <Modal title="Atualize seus dados">
+      <Modal title="Atualize seus dados" id={modalUpdateId}>
         <FormUser
           user={profile}
-          saveUser={handleSubmit}
+          saveUser={handleSubmitUpateUser}
           formForUpdate
         />
+      </Modal>
+      <Modal title="Atualize sua senha" id={modalUpdatePasswordId}>
+        <form onSubmit={handleSubmitUpatePassword}>
+
+          <PasswordInputs
+            setPassword={setNewPassword}
+            setHasPasswordError={setHasPasswordError}
+            label="Digite sua nova senha"
+            currentPassword={false}
+            showConfirmPassword={false}
+          />
+
+          <PasswordInputs
+            setPassword={setCurrentPassword}
+            setHasPasswordError={setHasPasswordError}
+            label="Digite sua senha atual"
+            currentPassword
+            showConfirmPassword={false}
+          />
+
+          <button
+            type="submit"
+            className="btn btn-block btn-success"
+            onSubmit={handleSubmitUpatePassword}
+            disabled={hasPasswordError}
+          >
+            Confirmar
+          </button>
+        </form>
       </Modal>
     </>
   );

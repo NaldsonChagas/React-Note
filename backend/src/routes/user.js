@@ -13,5 +13,6 @@ router.use('/', checkUserPassword)
 
 protectedRouter.put('/', userController.update)
 protectedRouter.delete('/', userController.delete)
+protectedRouter.put('/password', userController.udpatePassword)
 
 module.exports = router

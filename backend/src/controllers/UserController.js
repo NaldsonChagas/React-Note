@@ -58,5 +58,24 @@ module.exports = {
         .json({ message: 'Não foi possível concluir a operação' })
       throw new Error('The user could not be deleted')
     }
+  },
+  async udpatePassword (req, res) {
+    const { newPassword } = req.body
+    const { userid } = req.headers
+
+    try {
+      await User.update({
+        password: passwordUtil
+          .setPassword(newPassword)
+      }, {
+        where: { id: userid }
+      })
+      res.json({ message: 'Senha alterada com sucesso' })
+    } catch (err) {
+      res
+        .status(500)
+        .json({ message: 'Não foi possível alterar sua senha' })
+      throw new Error(err)
+    }
   }
 }
