@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import api from '../../services/api';
 import Header from '../../Components/Header';
@@ -70,6 +70,10 @@ export default function Register({ location }) {
             saveUser={handleSubmit}
             user={user}
           />
+          <br />
+          <div className="text-center">
+            <Link to="/">Voltar</Link>
+          </div>
         </div>
       </div>
       <Footer />

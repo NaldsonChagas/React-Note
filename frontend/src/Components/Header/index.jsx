@@ -50,9 +50,7 @@ export default function Header() {
         : ''}
       <header className="col-md-12">
         <div className="container">
-          <Link to="/">
-            <img src="img/logo-dark.png" alt="Logo do React Note" />
-          </Link>
+          <img src="img/logo-dark.png" alt="Logo do React Note" />
         </div>
       </header>
     </>
