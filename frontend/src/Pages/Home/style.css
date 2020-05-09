@@ -12,3 +12,9 @@
 .identification-box h3 {
   margin-bottom: 0.8em;
 }
+
+@media (max-width: 705px) {
+  .first-step-form {
+    margin-top: 2em;
+  }
+}

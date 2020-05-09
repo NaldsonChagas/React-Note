@@ -40,7 +40,7 @@ export default function Home({ location }) {
           </h3>
           <FirstStepRegister />
         </div>
-        <div className="col-md-6 float-right">
+        <div className="col-md-6 float-right first-step-form">
           <h3>
             Já tenho conta
             <span role="img" aria-label="smile-eyes">😁</span>
