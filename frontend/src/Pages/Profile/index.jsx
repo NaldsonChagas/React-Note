@@ -7,20 +7,15 @@ import Modal from '../../Components/Modal';
 import FormUser from '../../Components/FormUser';
 import api from '../../services/api';
 import Alert from '../../Components/Alert';
+import FormUpdatePassword from '../../Components/FormUpdatePassword';
 
 import './style.css';
-import PasswordInputs from '../../Components/PasswordInputs';
 
 export default function Profile() {
   const modalUpdateId = 'modalUpdate';
   const modalUpdatePasswordId = 'modalUpadePassword';
 
   const [profile, setProfile] = useState({});
-
-  const [newPassword, setNewPassword] = useState('');
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [hasPasswordError, setHasPasswordError] = useState(false);
-
 
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('');
@@ -78,25 +73,22 @@ export default function Profile() {
     }
   }
 
-  async function handleSubmitUpatePassword(event) {
-    event.preventDefault();
-    if (!hasPasswordError) {
-      try {
-        const response = await api.put('/user/password', {
-          newPassword,
-          password: currentPassword,
-        }, {
-          headers: {
-            Authorization: localStorage.getItem('Authorization'),
-            userId: localStorage.getItem('userId'),
-          },
-        });
-        addAlert('success', response.data.message);
-        $(`#${modalUpdatePasswordId}`).modal('hide');
-      } catch (err) {
-        addAlert('success',
-          'Não foi possível alterar sua senha');
-      }
+  async function handleSubmitUpatePassword({ currentPassword, newPassword }) {
+    try {
+      const response = await api.put('/user/password', {
+        newPassword,
+        password: currentPassword,
+      }, {
+        headers: {
+          Authorization: localStorage.getItem('Authorization'),
+          userId: localStorage.getItem('userId'),
+        },
+      });
+      addAlert('success', response.data.message);
+      $(`#${modalUpdatePasswordId}`).modal('hide');
+    } catch (err) {
+      addAlert('error',
+        'Não foi possível alterar sua senha');
     }
   }
 
@@ -165,33 +157,9 @@ export default function Profile() {
         />
       </Modal>
       <Modal title="Atualize sua senha" id={modalUpdatePasswordId}>
-        <form onSubmit={handleSubmitUpatePassword}>
-
-          <PasswordInputs
-            setPassword={setNewPassword}
-            setHasPasswordError={setHasPasswordError}
-            label="Digite sua nova senha"
-            currentPassword={false}
-            showConfirmPassword={false}
-          />
-
-          <PasswordInputs
-            setPassword={setCurrentPassword}
-            setHasPasswordError={setHasPasswordError}
-            label="Digite sua senha atual"
-            currentPassword
-            showConfirmPassword={false}
-          />
-
-          <button
-            type="submit"
-            className="btn btn-block btn-success"
-            onSubmit={handleSubmitUpatePassword}
-            disabled={hasPasswordError}
-          >
-            Confirmar
-          </button>
-        </form>
+        <FormUpdatePassword
+          handleSubmitUpatePassword={handleSubmitUpatePassword}
+        />
       </Modal>
     </>
   );
