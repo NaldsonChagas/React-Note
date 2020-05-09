@@ -6,7 +6,9 @@ import api from '../../services/api';
 import InputMessageError from '../InputMessageError';
 import PasswordInputs from '../PasswordInputs';
 
-export default function FormUser({ saveUser, user, formForUpdate }) {
+export default function FormUser({
+  saveUser, user, formForUpdate, showConfirmPassword,
+}) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
@@ -147,7 +149,7 @@ export default function FormUser({ saveUser, user, formForUpdate }) {
         formForUpdate={formForUpdate}
         currentPassword={false}
         label="Senha"
-        showConfirmPassword
+        showConfirmPassword={showConfirmPassword}
       />
 
       <button
@@ -166,9 +168,11 @@ FormUser.defaultProps = {
   saveUser: () => new Error(
     'Uma função para submit é necessária nas props',
   ),
+  showConfirmPassword: true,
 };
 
 FormUser.propTypes = {
   formForUpdate: PropTypes.bool,
   saveUser: PropTypes.func,
+  showConfirmPassword: PropTypes.bool,
 };

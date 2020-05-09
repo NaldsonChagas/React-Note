@@ -161,6 +161,7 @@ export default function Profile() {
           user={profile}
           saveUser={handleSubmitUpateUser}
           formForUpdate
+          showConfirmPassword={false}
         />
       </Modal>
       <Modal title="Atualize sua senha" id={modalUpdatePasswordId}>
