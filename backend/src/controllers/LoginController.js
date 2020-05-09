@@ -21,7 +21,7 @@ module.exports = {
     if (userFinded) {
       if (passwordUtil.comparePassword(password, userFinded.password)) {
         const token = jwt.sign({ userFinded }, process.env.LOGIN_KEY, {
-          expiresIn: '12h'
+          expiresIn: '3h'
         })
 
         res.json({
