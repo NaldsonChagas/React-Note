@@ -1,33 +1,24 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-import { useHistory } from 'react-router-dom';
-import api from '../../services/api';
-import Alert from '../Alert';
 import PasswordInputs from '../PasswordInputs';
 
-export default function LoginForm() {
+export default function LoginForm({ handleLogin }) {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
 
-  const [alert, setAlert] = useState('');
-
-  const history = useHistory();
-
   async function handleSubmit(event) {
     event.preventDefault();
-    api.post('/', { user, password }).then((response) => {
-      const { token, userId } = response.data;
-      localStorage.setItem('Authorization', `Bearer ${token}`);
-      localStorage.setItem('userId', userId);
-      history.push('/notes');
-    }, (err) => {
-      setAlert(err.response.data.message);
-    });
+    if (user && password) {
+      handleLogin({
+        user,
+        password,
+      });
+    }
   }
 
   return (
     <>
-      <Alert type="warning" message={alert} />
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="form-group">
           <input
@@ -55,3 +46,13 @@ export default function LoginForm() {
     </>
   );
 }
+
+LoginForm.defaultValues = {
+  handleSubmit: () => {
+    throw Error('Função de login não foi passada');
+  },
+};
+
+LoginForm.proptype = {
+  handleSubmit: PropTypes.func,
+};

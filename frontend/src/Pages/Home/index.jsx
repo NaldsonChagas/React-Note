@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react';
 
 import './style.css';
 
+import { useHistory } from 'react-router-dom';
 import LoginForm from '../../Components/LoginForm';
 import FirstStepRegister from '../../Components/FirstStepRegister';
 import Alert from '../../Components/Alert';
 import Header from '../../Components/Header';
+import api from '../../services/api';
 
 
 export default function Home({ location }) {
   const [alertMessage, setAlertMessage] = useState('');
   const [alertType, setAlertType] = useState('');
+
+  const history = useHistory();
 
   useEffect(() => {
     if (location.state) {
@@ -21,6 +25,18 @@ export default function Home({ location }) {
       }
     }
   }, [location.state]);
+
+  function handleLogin({ user, password }) {
+    api.post('/', { user, password }).then((response) => {
+      const { token, userId } = response.data;
+      localStorage.setItem('Authorization', `Bearer ${token}`);
+      localStorage.setItem('userId', userId);
+      history.push('/notes');
+    }, (err) => {
+      setAlertMessage(err.response.data.message);
+      setAlertType('warning');
+    });
+  }
 
   return (
     <>
@@ -45,7 +61,7 @@ export default function Home({ location }) {
             Já tenho conta
             <span role="img" aria-label="smile-eyes">😁</span>
           </h3>
-          <LoginForm />
+          <LoginForm handleLogin={handleLogin} />
         </div>
       </div>
     </>

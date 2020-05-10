@@ -18,19 +18,19 @@ module.exports = {
           }
       })
 
-    if (userFinded) {
-      if (passwordUtil.comparePassword(password, userFinded.password)) {
-        const token = jwt.sign({ userFinded }, process.env.LOGIN_KEY, {
-          expiresIn: '3h'
-        })
+    if (userFinded && passwordUtil
+      .comparePassword(password, userFinded.password)) {
+      const token = jwt.sign({ userFinded }, process.env.LOGIN_KEY, {
+        expiresIn: '3h'
+      })
 
-        res.json({
-          message: 'Authentication done',
-          userId: userFinded.id,
-          token
-        })
-      }
+      res.json({
+        message: 'Authentication done',
+        userId: userFinded.id,
+        token
+      })
+    } else {
+      res.status(401).json({ message: 'Nome de usuário ou senha incorretos' })
     }
-    res.status(401).json({ message: 'Nome de usuário ou senha incorretos' })
   }
 }
