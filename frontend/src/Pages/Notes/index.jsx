@@ -11,6 +11,7 @@ import api from '../../services/api';
 
 import './style.css';
 import 'bootstrap/js/dist/modal';
+import noteService from '../../services/noteService';
 
 export default function Notes() {
   const [notes, setNotes] = useState([]);
@@ -52,23 +53,14 @@ export default function Notes() {
   async function updateNote(noteForSave) {
     if (noteForSave) {
       try {
-        const response = await api.put(`/note/${noteForSave.id}`, {
-          id: noteForSave.id,
-          title: noteForSave.title,
-          body: noteForSave.body,
-        }, {
-          headers: {
-            Authorization: localStorage.getItem('Authorization'),
-            userId: localStorage.getItem('userId'),
-          },
-        });
+        const response = await noteService.update(noteForSave);
         const { message, note } = response.data;
         addAlert('success', message);
         setNotes(orderNotes([...notes
           .filter((n) => n.id !== noteForSave.id), note]));
         $('.modal').modal('hide');
       } catch (err) {
-        addAlert('danger',
+        addAlert('error',
           'Ocorreu um erro ao atualizar a nota');
       }
     }
@@ -76,15 +68,7 @@ export default function Notes() {
 
   async function addNote(noteForSave) {
     if (noteForSave) {
-      const response = await api.post('/note', {
-        title: noteForSave.title,
-        body: noteForSave.body,
-      }, {
-        headers: {
-          Authorization: localStorage.getItem('Authorization'),
-          userId: localStorage.getItem('userId'),
-        },
-      });
+      const response = await noteService.add(noteForSave);
       const { message, note } = response.data;
       addAlert('success', message);
       setNotes(orderNotes([...notes, {
@@ -103,18 +87,13 @@ export default function Notes() {
 
   async function handleClickDelete(noteId) {
     if (window.confirm('Deseja mesmo excluir esta nota?')) {
-      const response = await api.delete(`/note/${noteId}`, {
-        headers: {
-          Authorization: localStorage.getItem('Authorization'),
-          userId: localStorage.getItem('userId'),
-        },
-      });
-
-      if (response.status === 200) {
-        addAlert('success', 'Nota excluída com sucesso');
+      try {
+        const response = await noteService.delete(noteId);
+        addAlert('success', response.data.message);
         setNotes(notes.filter((n) => n.id !== noteId));
-      } else {
-        addAlert('warning', 'Não foi possível excluir a nota');
+      } catch (e) {
+        addAlert('error',
+          'Não foi possível excluir a nota');
       }
     }
   }
