@@ -5,11 +5,11 @@ import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
 import Modal from '../../Components/Modal';
 import FormUser from '../../Components/FormUser';
-import api from '../../services/api';
 import Alert from '../../Components/Alert';
 import FormUpdatePassword from '../../Components/FormUpdatePassword';
 
 import './style.css';
+import profileService from '../../services/profileService';
 
 export default function Profile() {
   const modalUpdateId = 'modalUpdate';
@@ -21,14 +21,7 @@ export default function Profile() {
   const [alertType, setAlertType] = useState('');
 
   useEffect(() => {
-    api.get('/profile', {
-      headers: {
-        Authorization: localStorage
-          .getItem('Authorization'),
-        userId: localStorage
-          .getItem('userId'),
-      },
-    }).then((response) => {
+    profileService.get().then((response) => {
       setProfile(response.data.user);
     });
   }, []);
@@ -50,23 +43,16 @@ export default function Profile() {
     name, surname, email, username, password,
   }) {
     try {
-      const response = await api.put('/user', {
-        name,
-        surname,
-        email,
-        username,
-        password,
-      }, {
-        headers: {
-          Authorization: localStorage.getItem('Authorization'),
-          userId: localStorage.getItem('userId'),
+      const { data } = await profileService.update(
+        {
+          name, surname, email, username, password,
         },
-      });
+      );
       $(`#${modalUpdateId}`).modal('hide');
       setProfile({
         name, surname, email, username,
       });
-      addAlert('success', response.data.message);
+      addAlert('success', data.message);
     } catch (err) {
       addAlert('error',
         'Ocorreu um erro ao atualizar suas informações');
@@ -75,16 +61,10 @@ export default function Profile() {
 
   async function handleSubmitUpatePassword({ currentPassword, newPassword }) {
     try {
-      const response = await api.put('/user/password', {
-        newPassword,
-        password: currentPassword,
-      }, {
-        headers: {
-          Authorization: localStorage.getItem('Authorization'),
-          userId: localStorage.getItem('userId'),
-        },
-      });
-      addAlert('success', response.data.message);
+      const { data } = await profileService.updatePassword(
+        currentPassword, newPassword,
+      );
+      addAlert('success', data.message);
       $(`#${modalUpdatePasswordId}`).modal('hide');
     } catch (err) {
       addAlert('error',
