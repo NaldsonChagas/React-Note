@@ -28,9 +28,9 @@ export default function FormUpdatePassword({
       <PasswordInputs
         setPassword={setNewPassword}
         setHasPasswordError={setHasPasswordError}
-        label="Digite sua nova senha"
+        label="Digite uma nova senha"
         currentPassword={false}
-        showConfirmPassword={false}
+        showConfirmPassword
       />
 
       <PasswordInputs
@@ -38,7 +38,6 @@ export default function FormUpdatePassword({
         setHasPasswordError={setHasPasswordError}
         label="Digite sua senha atual"
         currentPassword
-        showConfirmPassword={false}
       />
 
       <button
