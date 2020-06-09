@@ -120,33 +120,33 @@ export default function Notes() {
                 <div className="card-header">
                   <div className="note-title">
                     {note.title}
-                    <div className="float-right">
-                      <button
-                        className="btn-sm btn-link btn"
-                        type="button"
-                        onClick={() => modalUpdateNote(note)}
-                      >
-                        Alterar
-                      </button>
-
-                      <button
-                        className="btn-sm btn-link btn"
-                        type="button"
-                        onClick={() => handleClickDelete(note.id)}
-                      >
-                        Excluir
-                      </button>
-                    </div>
                   </div>
                 </div>
                 <div className="card-body">
                   {note.body}
                 </div>
-                <div className="card-footer text-muted text-right">
-                  {
-                  new Intl.DateTimeFormat('pt-BR')
-                    .format(new Date(note.createdAt))
-                  }
+                <div className="card-footer">
+                  <div>
+                    <button
+                      className="btn-sm btn-link btn"
+                      type="button"
+                      onClick={() => modalUpdateNote(note)}
+                    >
+                      Alterar
+                    </button>
+
+                    <button
+                      className="btn-sm btn-link btn"
+                      type="button"
+                      onClick={() => handleClickDelete(note.id)}
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                  <div className="text-muted">
+                    {new Intl.DateTimeFormat('pt-BR')
+                      .format(new Date(note.createdAt))}
+                  </div>
                 </div>
               </div>
             </div>
