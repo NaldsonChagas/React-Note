@@ -83,7 +83,7 @@ export default function Profile() {
             <h4>Meus dados</h4>
           </div>
           <div className="card-body">
-            <table className="table table-bordered">
+            <table className="table">
               <tbody>
                 <tr>
                   <th>Nome completo</th>
