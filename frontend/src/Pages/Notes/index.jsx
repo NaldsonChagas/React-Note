@@ -125,7 +125,7 @@ export default function Notes() {
                 <div className="card-body">
                   {note.body}
                 </div>
-                <div className="card-footer">
+                <div className="card-footer d-flex justify-content-between">
                   <div>
                     <button
                       className="btn-sm btn-link btn"
@@ -134,7 +134,6 @@ export default function Notes() {
                     >
                       Alterar
                     </button>
-
                     <button
                       className="btn-sm btn-link btn"
                       type="button"
